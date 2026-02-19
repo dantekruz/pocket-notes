@@ -1,25 +1,87 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState }            from "react";
+import { GlobalStyle }         from "./styles/globalStyles";
+import { useNotes }            from "./hooks/useNotes";
+import { useWindowSize }       from "./hooks/useWindowSize";
+import { Sidebar }             from "./components/Sidebar";
+import { NotesPanel }          from "./components/NotesPanel";
+import { WelcomeScreen }       from "./components/WelcomeScreen";
+import { CreateGroupModal }    from "./components/CreateGroupModal";
 
-function App() {
+
+const styles = {
+  shell: {
+    display:    "flex",
+    width:      "100vw",
+    height:     "100vh",
+    overflow:   "hidden",
+    background: "#fff",
+  },
+};
+
+export default function App() {
+  const [showModal, setShowModal] = useState(false);
+
+  const {
+    groups,
+    activeGroup,
+    activeNotes,
+    existingNames,
+    setActiveGroup,
+    createGroup,
+    addNote,
+  } = useNotes();
+
+  const { isMobile } = useWindowSize(680);
+
+  const showSidebar = !isMobile || !activeGroup;
+  const showNotes   = !isMobile || !!activeGroup;
+
+  function handleGroupSelect(group) {
+    setActiveGroup(group);
+  }
+
+  function handleGroupCreate(data) {
+    createGroup(data);
+    setShowModal(false);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <GlobalStyle />
+
+      <div style={styles.shell}>
+
+        {showSidebar && (
+          <Sidebar
+            groups={groups}
+            activeGroup={activeGroup}
+            onSelect={handleGroupSelect}
+            onNewGroup={() => setShowModal(true)}
+          />
+        )}
+
+        {showNotes && (
+          activeGroup
+            ? (
+              <NotesPanel
+                group={activeGroup}
+                notes={activeNotes}
+                onAdd={addNote}
+                onBack={() => setActiveGroup(null)}
+              />
+            )
+            : <WelcomeScreen />
+        )}
+
+        {showModal && (
+          <CreateGroupModal
+            onClose={() => setShowModal(false)}
+            onCreate={handleGroupCreate}
+            existingNames={existingNames}
+          />
+        )}
+
+      </div>
+    </>
   );
 }
-
-export default App;
