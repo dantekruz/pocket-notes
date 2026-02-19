@@ -26,11 +26,11 @@ A clean, group-based note-taking web app built with React. Organize your notes i
 
 | Welcome Screen | Notes View |
 |---|---|
-| ![Welcome](https://placehold.co/480x300/DAE5F5/1A1A1A?text=Welcome+Screen) | ![Notes](https://placehold.co/480x300/F0F2F5/1A1A1A?text=Notes+View) |
+| ![Welcome](./src/docs/WelcomeScreen.png) | ![Notes](./src/docs/Notespage.png) |
 
 | Create Group Modal | Mobile View |
 |---|---|
-| ![Modal](https://placehold.co/480x300/ffffff/1A1A1A?text=Create+Group+Modal) | ![Mobile](https://placehold.co/480x300/001F8B/ffffff?text=Mobile+View) |
+| ![Modal](./src/docs/GroupModal.png) | ![Mobile](./src/docs/mobileview.png) |
 
 > 💡 Replace the placeholder images above with real screenshots of your app.
 > In your repo, add screenshots to a `docs/` folder and update the paths above.
